@@ -2,7 +2,7 @@ import React from "react";
 import { useSession, signIn } from "next-auth/react";
 
 const LoginBlock = (): React.JSX.Element => {
-	const { data: session, status } = useSession();
+	const { status } = useSession();
 
 	switch (status) {
 		case "loading":

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession, signOut } from 'next-auth/react';
 
 const LogoutBlock = (): React.JSX.Element => {
-	const { data: session, status } = useSession();
+	const { status } = useSession();
 
 	switch (status) {
 		case 'loading':
