@@ -17,6 +17,24 @@ const handler = NextAuth({
 			clientSecret: clientSecret
 		})
 	],
+	// コールバックの設定
+	callbacks: {
+		async redirect({ url, baseUrl }) {
+			// ログイン成功時
+			if (url === '/api/auth/callback/google') {
+				return '/home';
+			}
+			// ログアウト成功時
+			if (url === '/api/auth/signout') {
+				return '/login';
+			}
+			// 認証エラー時
+			if (url === '/api/auth/error') {
+				return '/login';
+			}
+			return baseUrl;
+		},
+	},
 })
 
 export { handler as GET, handler as POST }
