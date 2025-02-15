@@ -1,6 +1,5 @@
 'use client';
 
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import LoginBlock from "@/app/api/auth/components/LoginBlock";
 import LogoutBlock from '@/app/api/auth/components/LogoutBlock';
