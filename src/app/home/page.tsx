@@ -3,11 +3,11 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import React from 'react';
-
+import { signOut } from "next-auth/react";
 
 const Header = (): React.JSX.Element => {
 	const handleLogout = () => {
-		// ログアウト処理をここに追加
+		signOut();
 		console.log('Logged out');
 	};
 
