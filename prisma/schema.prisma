@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  users     User[] //逆引き用
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Provider {
+  id            String         @id @default(uuid())
+  name          String         @unique
+  users         User[] //逆引き用
+  userProviders UserProvider[] //逆引き
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  roleId        String         @map("role_id")
+  Role          Role           @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  userProviders UserProvider[] // 逆引き用
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  providerId    String
+  provider      Provider       @relation(fields: [providerId], references: [id])
+}
+
+model UserProvider {
+  id         String   @id @default(uuid())
+  providerId String   @map("provider_id")
+  provider   Provider @relation(fields: [providerId], references: [id]) // Google or LINE
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
